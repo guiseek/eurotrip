@@ -1,17 +1,3 @@
-const template = document.createElement('template')
-// <button
-//       class="theme-toggle"
-//       id="theme-toggle"
-//       title="Toggles light & dark"
-//       aria-label="auto"
-//       aria-live="polite"
-//       (click)="onClick()"
-//     >
-template.innerHTML = `
-      
-      `
-// </button>
-
 export class ETThemeElement extends HTMLButtonElement {
   static storageKey = 'theme-preference'
 

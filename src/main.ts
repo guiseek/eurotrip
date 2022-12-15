@@ -54,23 +54,19 @@ if (sectionTmpl && photoTmpl && dialogEl) {
       if (target === dialogEl) closeDialog()
     }
     dialogEl.addEventListener('click', onClick)
+    const img = dialogEl.querySelector('img')
 
-    queryAll('ul.scroller a').forEach((anchor) => {
-      const url = `#${anchor.href.replace(location.origin, '')}`
-
-      anchor.onclick = (e) => {
-        e.preventDefault()
-
-        const img = dialogEl.querySelector('img')
-        if (img) img.src = anchor.href
+    const handleNav = () => {
+      if (location.hash) {
+        img.src = location.hash.replace('#', '')
         dialogEl.showModal()
-
-        location.replace(url)
+      } else if (dialogEl.open) {
+        dialogEl.close()
       }
+    }
 
-      if (location.hash === url) {
-        anchor.click()
-      }
-    })
+    handleNav()
+
+    onhashchange = handleNav
   })
 }
