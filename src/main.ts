@@ -1,6 +1,7 @@
 import {mediaScroller} from './media-scroller'
 import {TemplateInstance} from './tmpl'
 import {query, queryAll} from './utils'
+import './core/elements'
 import './style.scss'
 
 const sectionTmpl = query('template#section')
@@ -35,13 +36,17 @@ if (sectionTmpl && photoTmpl && dialogEl) {
       })
     )
 
+    const closeDialog = () => {
+      location.hash = ''
+      dialogEl.close()
+    }
     const onClick = ({target}: MouseEvent) => {
-      if (target === dialogEl) dialogEl.close()
+      if (target === dialogEl) closeDialog()
     }
     dialogEl.addEventListener('click', onClick)
     onkeydown = (e) => {
       if (dialogEl.open && e.key === 'Escape') {
-        dialogEl.close()
+        closeDialog()
       }
     }
     queryAll('ul.media-scroller a').forEach((anchor) => {
