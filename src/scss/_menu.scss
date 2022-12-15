@@ -1,0 +1,184 @@
+@use './utilities/media' as media;
+
+menu[is="et-menu"] {
+  --y: 0;
+  --x: 0;
+  --distance: 1px;
+  --theme: hsl(302, 94%, 50%);
+  --theme-bg: hsl(302, 96%, 49%, 25%);
+  --theme-bg-hover: hsl(302, 90%, 51%, 10%);
+  --theme-shadow: hsl(255 53% 10% / 25%);
+
+  --_max-rotateY: 10deg;
+  --_max-rotateX: 15deg;
+  --_btn-bg: var(--theme-bg);
+  --_btn-bg-hover: var(--theme-bg-hover);
+  --_btn-text: var(--theme-text);
+  --_btn-text-shadow: var(--theme-shadow);
+  --_bounce-ease: cubic-bezier(0.5, 1.75, 0.75, 1.25);
+
+  /* remove <ul> margins */
+  margin: 0;
+
+  /* vertical rag-right layout */
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2.5vh;
+
+  /* create 3D space context */
+  transform-style: preserve-3d;
+
+  /* clamped menu rotation to not be too extreme */
+  transform: rotateY(
+      clamp(calc(var(--_max-rotateY) * -1), var(--y), var(--_max-rotateY))
+    )
+    rotateX(
+      clamp(calc(var(--_max-rotateX) * -1), var(--x), var(--_max-rotateX))
+    );
+
+  /* removes Safari focus ring on <ul> after button interaction */
+  &:focus {
+    outline: none;
+  }
+
+  @include media.motion-ok() {
+    will-change: transform;
+    transition: transform 0.1s ease;
+    animation: rotate-y 5s ease-in-out infinite;
+  }
+  @include media.hd-color() {
+    @supports (color: color(display-p3 0 0 0)) {
+      --theme: color(display-p3 0.4 0 0.9);
+    }
+  }
+}
+
+html[data-theme='dark'] menu[is="et-menu"] {
+  @include media.os-dark() {
+    --theme: hsl(126, 94%, 50%);
+    --theme-bg: hsl(126, 96%, 49%, 25%);
+    --theme-bg-hover: hsl(126, 90%, 51%, 10%);
+    --theme-shadow: hsl(255 53% 10% / 25%);
+  }
+}
+
+menu[is="et-menu"] > li {
+  /* change display type from list-item */
+  display: inline-flex;
+
+  /* create context for button pseudos */
+  position: relative;
+
+  /* create 3D space context */
+  transform-style: preserve-3d;
+}
+
+menu[is="et-menu"] button {
+  /* strip out default button styles */
+  appearance: none;
+  outline: none;
+  border: none;
+  -webkit-tap-highlight-color: transparent;
+
+  /* bring in brand styles via props */
+  background-color: var(--_btn-bg);
+  color: var(--_btn-text);
+  text-shadow: 0 1px 1px var(--_btn-text-shadow);
+
+  font-size: min(5vmin, 3rem);
+  font-family: Audiowide;
+  padding-block: 0.75ch;
+  padding-inline: 2ch;
+  border-radius: 5px 20px;
+
+  /* prepare for 3D perspective transforms */
+  transform: translateZ(var(--distance));
+  transform-style: preserve-3d;
+
+  &:is(:hover, :focus-visible):not(:active) {
+    /* subtle distance plus bg color change on hover/focus */
+    --distance: 15px;
+    background-color: var(--_btn-bg-hover);
+
+    /* if motion is OK, setup transitions and increase distance */
+    @include media.motion-ok() {
+      --distance: 3vmax;
+
+      transition-timing-function: var(--_bounce-ease);
+      transition-duration: 0.4s;
+
+      &::after {
+        transition-duration: 0.5s;
+      }
+      &::before {
+        transition-duration: 0.3s;
+      }
+    }
+  }
+
+  &::after,
+  &::before {
+    /* create empty element */
+    content: '';
+    opacity: 0.8;
+
+    /* cover the parent (button) */
+    position: absolute;
+    inset: 0;
+
+    /* style the element for border accents */
+    border: 1px solid var(--theme);
+    border-radius: 5px 20px;
+
+    /* move in Z space with a multiplier */
+    transform: translateZ(calc(var(--distance) / 3));
+
+    /* if motion is OK, transition the Z space move */
+    @include media.motion-ok() {
+      transition: transform 0.1s ease-out;
+    }
+  }
+
+  /* exceptions for one of the pseudo elements */
+  /* this will be pushed back and have a thicker border */
+  &::before {
+    border-width: 3px;
+    transform: translateZ(calc(var(--distance) / 3 * -1));
+
+    /* in dark mode, it glows! */
+    @include media.os-dark() {
+      box-shadow: 0 0 25px var(--theme), inset 0 0 25px var(--theme);
+    }
+  }
+
+  @include media.motion-ok() {
+    will-change: transform;
+    transition: transform 0.2s ease, background-color 0.5s ease;
+  }
+}
+
+@keyframes rotate-y {
+  50% {
+    transform: rotateY(15deg) rotateX(-6deg);
+  }
+}
+
+.puff-out-center {
+  animation: puff-out-center 1s cubic-bezier(0.165, 0.840, 0.440, 1.000) both;
+}
+
+@keyframes puff-out-center {
+  0% {
+    transform: scale(1);
+    filter: blur(0px);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(2);
+    filter: blur(4px);
+    display: none;
+    z-index: -10;
+    opacity: 0;
+  }
+}

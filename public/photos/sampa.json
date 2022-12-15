@@ -1,0 +1,30 @@
+[
+  {
+    "type": "file",
+    "name": "./photos/sampa/sampa-1.webp",
+    "inode": 83019660,
+    "dev": 16777232,
+    "time": "Dec 14 22:23"
+  },
+  {
+    "type": "file",
+    "name": "./photos/sampa/sampa-2.webp",
+    "inode": 83019662,
+    "dev": 16777232,
+    "time": "Dec 14 22:23"
+  },
+  {
+    "type": "file",
+    "name": "./photos/sampa/sampa-3.webp",
+    "inode": 83019663,
+    "dev": 16777232,
+    "time": "Dec 14 22:23"
+  },
+  {
+    "type": "file",
+    "name": "./photos/sampa/sampa-4.webp",
+    "inode": 83019664,
+    "dev": 16777232,
+    "time": "Dec 14 22:23"
+  }
+]

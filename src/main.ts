@@ -7,66 +7,127 @@ import './elements'
 const sectionTmpl = query('template#section')
 const photoTmpl = query('template#photo')
 const dialogEl = query('dialog#viewer')
+const menuEl = query('menu[is="et-menu"]')
 
-const fetchPhotos = (): Promise<Section[]> =>
-  fetch('./photos.json').then((res) => res.json())
+if (sectionTmpl && photoTmpl && dialogEl && menuEl) {
+  console.log(menuEl)
 
-if (sectionTmpl && photoTmpl && dialogEl) {
-  fetchPhotos().then((sections) => {
-    /**
-     * containers
-     */
-    sections.forEach((section) => {
-      const name = section.name.replace('photos/', '')
-      const container = new TemplateInstance(sectionTmpl, {name})
+  menuEl.addEventListener('activated', ({detail}) => {
+    console.log(detail)
 
-      section.contents.forEach((content) => {
-        const [, , alt, file] = content.name.split('/')
-        const caption = file.replace('.webp', '')
-        const scope = {...content, alt, caption}
-        const photo = new TemplateInstance(photoTmpl, scope)
-        const ul = container.querySelector('ul')
-        ul && ul.appendChild(photo)
-      })
+    const {name, photos} = detail
 
-      document.body.appendChild(container)
+    const container = new TemplateInstance(sectionTmpl, {name})
+
+    const ul = container.querySelector('ul')
+
+    photos.forEach((content) => {
+      const [, , alt, file] = content.name.split('/')
+      const caption = file.replace('.webp', '')
+      const scope = {...content, alt, caption}
+      const photo = new TemplateInstance(photoTmpl, scope)
+      ul && ul.appendChild(photo)
     })
 
-    /**
-     * scroller
-     */
-    const target = 'a'
-    queryAll('ul.scroller').forEach((element) => scroller({element, target}))
+    menuEl.addEventListener('animationEnd', () => {
+      ul.scrollIntoView({behavior: 'smooth'})
+    })
 
-    /**
-     * dialog
-     */
-    const closeDialog = () => {
-      location.hash = ''
+    document.body.appendChild(container)
+  })
+
+  /**
+   * scroller
+   */
+  const target = 'a'
+  queryAll('ul.scroller').forEach((element) => scroller({element, target}))
+
+  /**
+   * dialog
+   */
+  const closeDialog = () => {
+    location.hash = ''
+    dialogEl.close()
+  }
+  onkeydown = (e) => {
+    const isOpen = dialogEl.open
+    const isEsc = e.key === 'Escape'
+    if (isOpen && isEsc) closeDialog()
+  }
+  const onClick = ({target}: MouseEvent) => {
+    if (target === dialogEl) closeDialog()
+  }
+  dialogEl.addEventListener('click', onClick)
+  const img = dialogEl.querySelector('img')
+
+  const handleNav = () => {
+    if (location.hash) {
+      img.src = location.hash.replace('#', '')
+      dialogEl.showModal()
+    } else if (dialogEl.open) {
       dialogEl.close()
     }
-    onkeydown = (e) => {
-      const isOpen = dialogEl.open
-      const isEsc = e.key === 'Escape'
-      if (isOpen && isEsc) closeDialog()
-    }
-    const onClick = ({target}: MouseEvent) => {
-      if (target === dialogEl) closeDialog()
-    }
-    dialogEl.addEventListener('click', onClick)
-    const img = dialogEl.querySelector('img')
+  }
 
-    const handleNav = () => {
-      if (location.hash) {
-        img.src = location.hash.replace('#', '')
-        dialogEl.showModal()
-      } else if (dialogEl.open) {
-        dialogEl.close()
-      }
-    }
+  handleNav()
 
-    handleNav()
+  onhashchange = handleNav
 
-    onhashchange = handleNav
-  })
+  // fetchPhotos().then((sections) => {
+  //   /**
+  //    * containers
+  //    */
+  //   sections.forEach((section) => {
+  //     const name = section.name.replace('photos/', '')
+  //     const container = new TemplateInstance(sectionTmpl, {name})
+
+  //     section.contents.forEach((content) => {
+  //       const [, , alt, file] = content.name.split('/')
+  //       const caption = file.replace('.webp', '')
+  //       const scope = {...content, alt, caption}
+  //       const photo = new TemplateInstance(photoTmpl, scope)
+  //       const ul = container.querySelector('ul')
+  //       ul && ul.appendChild(photo)
+  //     })
+
+  //     document.body.appendChild(container)
+  //   })
+
+  //   /**
+  //    * scroller
+  //    */
+  //   const target = 'a'
+  //   queryAll('ul.scroller').forEach((element) => scroller({element, target}))
+
+  //   /**
+  //    * dialog
+  //    */
+  //   const closeDialog = () => {
+  //     location.hash = ''
+  //     dialogEl.close()
+  //   }
+  //   onkeydown = (e) => {
+  //     const isOpen = dialogEl.open
+  //     const isEsc = e.key === 'Escape'
+  //     if (isOpen && isEsc) closeDialog()
+  //   }
+  //   const onClick = ({target}: MouseEvent) => {
+  //     if (target === dialogEl) closeDialog()
+  //   }
+  //   dialogEl.addEventListener('click', onClick)
+  //   const img = dialogEl.querySelector('img')
+
+  //   const handleNav = () => {
+  //     if (location.hash) {
+  //       img.src = location.hash.replace('#', '')
+  //       dialogEl.showModal()
+  //     } else if (dialogEl.open) {
+  //       dialogEl.close()
+  //     }
+  //   }
+
+  //   handleNav()
+
+  //   onhashchange = handleNav
+  // })
 }
