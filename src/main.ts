@@ -45,11 +45,20 @@ if (sectionTmpl && photoTmpl && dialogEl) {
       }
     }
     queryAll('ul.media-scroller a').forEach((anchor) => {
+      const url = `#${anchor.href.replace(location.origin, '')}`
+
       anchor.onclick = (e) => {
         e.preventDefault()
+
         const img = dialogEl.querySelector('img')
         if (img) img.src = anchor.href
         dialogEl.showModal()
+
+        location.replace(url)
+      }
+
+      if (location.hash === url) {
+        anchor.click()
       }
     })
   })
