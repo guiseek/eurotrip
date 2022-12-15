@@ -42,14 +42,19 @@ if (sectionTmpl && photoTmpl && dialogEl) {
   /**
    * scroller
    */
-  const target = 'a'
-  queryAll('ul.scroller').forEach((element) => scroller({element, target}))
+
+  setTimeout(() => {
+    const target = 'a'
+    const containers = queryAll('ul.scroller')
+    containers.forEach((element) => scroller({element, target}))
+  }, 1000)
 
   /**
    * dialog
    */
   const closeDialog = () => {
-    location.hash = ''
+    const [, , country] = location.hash.split('/')
+    location.hash = country
     dialogEl.close()
   }
   onkeydown = (e) => {
@@ -67,7 +72,7 @@ if (sectionTmpl && photoTmpl && dialogEl) {
    * nav
    */
   const handleNav = () => {
-    if (location.hash) {
+    if (location.hash && location.hash.includes('photos')) {
       img.src = location.hash.replace('#', '')
       dialogEl.showModal()
     } else if (dialogEl.open) {

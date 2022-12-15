@@ -14,7 +14,6 @@ interface MediaScroll<T extends keyof HTMLElementTagNameMap = 'a'> {
 type MediaScrollKey = HTMLUListElement | string
 type MediaScrollVal = HTMLUListElement | MediaScroll
 
-
 interface Section {
   type: string
   name: string
