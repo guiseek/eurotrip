@@ -18,7 +18,7 @@ const photoTmpl = query('template#photo')
 const dialogEl = query('dialog#viewer')
 
 const fetchJSON = async (name: string): Promise<Content[]> => {
-  return fetch(`/photos/${name}.json`).then((res) => res.json())
+  return fetch(`./photos/${name}.json`).then((res) => res.json())
 }
 
 if (sectionTmpl && photoTmpl && dialogEl) {
