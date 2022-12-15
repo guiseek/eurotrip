@@ -1,8 +1,8 @@
-import {mediaScroller} from './media-scroller'
-import {TemplateInstance} from './tmpl'
 import {query, queryAll} from './utils'
-import './core/elements'
+import {TemplateInstance} from './tmpl'
+import {scroller} from './scroller'
 import './style.scss'
+import './elements'
 
 const sectionTmpl = query('template#section')
 const photoTmpl = query('template#photo')
@@ -13,6 +13,9 @@ const fetchPhotos = (): Promise<Section[]> =>
 
 if (sectionTmpl && photoTmpl && dialogEl) {
   fetchPhotos().then((sections) => {
+    /**
+     * containers
+     */
     sections.forEach((section) => {
       const name = section.name.replace('photos/', '')
       const container = new TemplateInstance(sectionTmpl, {name})
@@ -29,27 +32,30 @@ if (sectionTmpl && photoTmpl && dialogEl) {
       document.body.appendChild(container)
     })
 
-    queryAll('ul.media-scroller').forEach((scroller) =>
-      mediaScroller({
-        element: scroller,
-        target: 'a',
-      })
-    )
+    /**
+     * scroller
+     */
+    const target = 'a'
+    queryAll('ul.scroller').forEach((element) => scroller({element, target}))
 
+    /**
+     * dialog
+     */
     const closeDialog = () => {
       location.hash = ''
       dialogEl.close()
+    }
+    onkeydown = (e) => {
+      const isOpen = dialogEl.open
+      const isEsc = e.key === 'Escape'
+      if (isOpen && isEsc) closeDialog()
     }
     const onClick = ({target}: MouseEvent) => {
       if (target === dialogEl) closeDialog()
     }
     dialogEl.addEventListener('click', onClick)
-    onkeydown = (e) => {
-      if (dialogEl.open && e.key === 'Escape') {
-        closeDialog()
-      }
-    }
-    queryAll('ul.media-scroller a').forEach((anchor) => {
+
+    queryAll('ul.scroller a').forEach((anchor) => {
       const url = `#${anchor.href.replace(location.origin, '')}`
 
       anchor.onclick = (e) => {
