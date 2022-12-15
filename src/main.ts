@@ -8,7 +8,7 @@ const photoTmpl = query('template#photo')
 const dialogEl = query('dialog#viewer')
 
 const fetchPhotos = (): Promise<Section[]> =>
-  fetch('/photos.json').then((res) => res.json())
+  fetch('./photos.json').then((res) => res.json())
 
 if (sectionTmpl && photoTmpl && dialogEl) {
   fetchPhotos().then((sections) => {
