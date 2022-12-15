@@ -23,7 +23,7 @@ interface Section {
 
 interface Content {
   type: Type
-  name: string
+  path: string
 }
 
 enum Type {

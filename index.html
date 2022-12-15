@@ -27,17 +27,6 @@
       <h1>eurotrip</h1>
     </header>
 
-    <nav>
-      <menu is="et-menu"></menu>
-      <!-- <ul class="threeD-button-set">
-        <li><button>sampa</button></li>
-        <li><button>paris</button></li>
-        <li><button>italy</button></li>
-        <li><button>switzerland</button></li>
-        <li><button>austria</button></li>
-      </ul> -->
-    </nav>
-
     <template id="section">
       <section>
         <header>
@@ -49,12 +38,12 @@
     </template>
     <template id="photo">
       <li>
-        <a href="#{{name}}">
+        <a href="#{{path}}">
           <figure>
             <picture>
-              <img alt="{{alt}}" loading="lazy" src="{{name}}" />
+              <img alt="{{name}} {{i}}" loading="lazy" src="{{path}}" />
             </picture>
-            <figcaption>{{caption}}</figcaption>
+            <figcaption>{{name}} {{i}}</figcaption>
           </figure>
         </a>
       </li>

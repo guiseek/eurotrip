@@ -52,7 +52,7 @@ function* collectParts(el: DocumentFragment): Generator<TemplatePart> {
 const processors = new WeakMap<TemplateInstance, TemplateTypeInit>()
 const parts = new WeakMap<TemplateInstance, Iterable<TemplatePart>>()
 export class TemplateInstance<
-  T extends Record<string, string> = {}
+  T extends Record<string, string | number> = {}
 > extends DocumentFragment {
   constructor(
     template: HTMLTemplateElement,

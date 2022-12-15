@@ -4,37 +4,40 @@ import {scroller} from './scroller'
 import './style.scss'
 import './elements'
 
+const countries = [
+  'sampa',
+  'madrid',
+  'paris',
+  'italy',
+  'switzerland',
+  'austria',
+]
+
 const sectionTmpl = query('template#section')
 const photoTmpl = query('template#photo')
 const dialogEl = query('dialog#viewer')
-const menuEl = query('menu[is="et-menu"]')
 
-if (sectionTmpl && photoTmpl && dialogEl && menuEl) {
-  console.log(menuEl)
+const fetchJSON = async (name: string): Promise<Content[]> => {
+  return fetch(`/photos/${name}.json`).then((res) => res.json())
+}
 
-  menuEl.addEventListener('activated', ({detail}) => {
-    console.log(detail)
-
-    const {name, photos} = detail
-
+if (sectionTmpl && photoTmpl && dialogEl) {
+  const appendPhotos = async (name: string) => {
+    const photos = await fetchJSON(name)
     const container = new TemplateInstance(sectionTmpl, {name})
 
     const ul = container.querySelector('ul')
 
-    photos.forEach((content) => {
-      const [, , alt, file] = content.name.split('/')
-      const caption = file.replace('.webp', '')
-      const scope = {...content, alt, caption}
+    photos.forEach((content, i) => {
+      const scope = {...content, name, i: i + 1}
       const photo = new TemplateInstance(photoTmpl, scope)
       ul && ul.appendChild(photo)
     })
 
-    menuEl.addEventListener('animationEnd', () => {
-      ul.scrollIntoView({behavior: 'smooth'})
-    })
-
     document.body.appendChild(container)
-  })
+  }
+
+  countries.forEach(appendPhotos)
 
   /**
    * scroller
@@ -60,6 +63,9 @@ if (sectionTmpl && photoTmpl && dialogEl && menuEl) {
   dialogEl.addEventListener('click', onClick)
   const img = dialogEl.querySelector('img')
 
+  /**
+   * nav
+   */
   const handleNav = () => {
     if (location.hash) {
       img.src = location.hash.replace('#', '')
@@ -72,62 +78,4 @@ if (sectionTmpl && photoTmpl && dialogEl && menuEl) {
   handleNav()
 
   onhashchange = handleNav
-
-  // fetchPhotos().then((sections) => {
-  //   /**
-  //    * containers
-  //    */
-  //   sections.forEach((section) => {
-  //     const name = section.name.replace('photos/', '')
-  //     const container = new TemplateInstance(sectionTmpl, {name})
-
-  //     section.contents.forEach((content) => {
-  //       const [, , alt, file] = content.name.split('/')
-  //       const caption = file.replace('.webp', '')
-  //       const scope = {...content, alt, caption}
-  //       const photo = new TemplateInstance(photoTmpl, scope)
-  //       const ul = container.querySelector('ul')
-  //       ul && ul.appendChild(photo)
-  //     })
-
-  //     document.body.appendChild(container)
-  //   })
-
-  //   /**
-  //    * scroller
-  //    */
-  //   const target = 'a'
-  //   queryAll('ul.scroller').forEach((element) => scroller({element, target}))
-
-  //   /**
-  //    * dialog
-  //    */
-  //   const closeDialog = () => {
-  //     location.hash = ''
-  //     dialogEl.close()
-  //   }
-  //   onkeydown = (e) => {
-  //     const isOpen = dialogEl.open
-  //     const isEsc = e.key === 'Escape'
-  //     if (isOpen && isEsc) closeDialog()
-  //   }
-  //   const onClick = ({target}: MouseEvent) => {
-  //     if (target === dialogEl) closeDialog()
-  //   }
-  //   dialogEl.addEventListener('click', onClick)
-  //   const img = dialogEl.querySelector('img')
-
-  //   const handleNav = () => {
-  //     if (location.hash) {
-  //       img.src = location.hash.replace('#', '')
-  //       dialogEl.showModal()
-  //     } else if (dialogEl.open) {
-  //       dialogEl.close()
-  //     }
-  //   }
-
-  //   handleNav()
-
-  //   onhashchange = handleNav
-  // })
 }
