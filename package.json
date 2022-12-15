@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
+    "build": "tsc && vite build --base=./",
     "preview": "vite preview",
     "tree": "tree -fDJ public/photos/ --noreport --sort mtime --device --info --inodes -o public/photos.json"
   },

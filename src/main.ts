@@ -17,9 +17,9 @@ if (sectionTmpl && photoTmpl && dialogEl) {
       const container = new TemplateInstance(sectionTmpl, {name})
 
       section.contents.forEach((content) => {
-        const [, , city, file] = content.name.split('/')
+        const [, , alt, file] = content.name.split('/')
         const caption = file.replace('.webp', '')
-        const scope = {...content, caption}
+        const scope = {...content, alt, caption}
         const photo = new TemplateInstance(photoTmpl, scope)
         const ul = container.querySelector('ul')
         ul && ul.appendChild(photo)
