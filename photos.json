@@ -12462,10 +12462,47 @@
   },
   {
     "type": "directory",
+    "name": "./photos/sampa",
+    "inode": 82884880,
+    "dev": 16777232,
+    "time": "Dec 14 22:23",
+    "contents": [
+      {
+        "type": "file",
+        "name": "./photos/sampa/sampa-1.webp",
+        "inode": 83019660,
+        "dev": 16777232,
+        "time": "Dec 14 22:23"
+      },
+      {
+        "type": "file",
+        "name": "./photos/sampa/sampa-2.webp",
+        "inode": 83019662,
+        "dev": 16777232,
+        "time": "Dec 14 22:23"
+      },
+      {
+        "type": "file",
+        "name": "./photos/sampa/sampa-3.webp",
+        "inode": 83019663,
+        "dev": 16777232,
+        "time": "Dec 14 22:23"
+      },
+      {
+        "type": "file",
+        "name": "./photos/sampa/sampa-4.webp",
+        "inode": 83019664,
+        "dev": 16777232,
+        "time": "Dec 14 22:23"
+      }
+    ]
+  },
+  {
+    "type": "directory",
     "name": "./photos/austria",
     "inode": 82897659,
     "dev": 16777232,
-    "time": "Dec 14 21:55",
+    "time": "Dec 14 23:49",
     "contents": [
       {
         "type": "file",
@@ -13673,20 +13710,6 @@
       },
       {
         "type": "file",
-        "name": "./photos/austria/austria-176.webp",
-        "inode": 82990551,
-        "dev": 16777232,
-        "time": "Dec 14 21:54"
-      },
-      {
-        "type": "file",
-        "name": "./photos/austria/austria-177.webp",
-        "inode": 82990552,
-        "dev": 16777232,
-        "time": "Dec 14 21:54"
-      },
-      {
-        "type": "file",
         "name": "./photos/austria/austria-178.webp",
         "inode": 82990553,
         "dev": 16777232,
@@ -13717,13 +13740,6 @@
         "type": "file",
         "name": "./photos/austria/austria-182.webp",
         "inode": 82990557,
-        "dev": 16777232,
-        "time": "Dec 14 21:54"
-      },
-      {
-        "type": "file",
-        "name": "./photos/austria/austria-183.webp",
-        "inode": 82990558,
         "dev": 16777232,
         "time": "Dec 14 21:54"
       },
@@ -13887,43 +13903,6 @@
         "inode": 82990583,
         "dev": 16777232,
         "time": "Dec 14 21:54"
-      }
-    ]
-  },
-  {
-    "type": "directory",
-    "name": "./photos/sampa",
-    "inode": 82884880,
-    "dev": 16777232,
-    "time": "Dec 14 22:23",
-    "contents": [
-      {
-        "type": "file",
-        "name": "./photos/sampa/sampa-1.webp",
-        "inode": 83019660,
-        "dev": 16777232,
-        "time": "Dec 14 22:23"
-      },
-      {
-        "type": "file",
-        "name": "./photos/sampa/sampa-2.webp",
-        "inode": 83019662,
-        "dev": 16777232,
-        "time": "Dec 14 22:23"
-      },
-      {
-        "type": "file",
-        "name": "./photos/sampa/sampa-3.webp",
-        "inode": 83019663,
-        "dev": 16777232,
-        "time": "Dec 14 22:23"
-      },
-      {
-        "type": "file",
-        "name": "./photos/sampa/sampa-4.webp",
-        "inode": 83019664,
-        "dev": 16777232,
-        "time": "Dec 14 22:23"
       }
     ]
   }
